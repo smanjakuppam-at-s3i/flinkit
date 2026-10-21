@@ -1,0 +1,3 @@
+# Default owner for everything in the repo. With branch protection that
+# requires code-owner review, changes to any path need this owner's approval.
+* @smanjakuppam-at-s3i
