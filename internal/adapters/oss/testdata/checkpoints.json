@@ -1,0 +1,9 @@
+{
+  "counts": {
+    "restored": 0,
+    "total": 12,
+    "in_progress": 0,
+    "completed": 10,
+    "failed": 2
+  }
+}

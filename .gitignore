@@ -1,0 +1,19 @@
+# Binaries
+/flinkit
+/dist/
+*.exe
+*.test
+*.out
+
+# Go
+/vendor/
+go.work
+go.work.sum
+
+# Flinkit working directory (written by `flinkit scan`)
+/.flinkit/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

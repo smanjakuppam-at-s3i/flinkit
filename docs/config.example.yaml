@@ -1,0 +1,47 @@
+# Example Flinkit config. Copy to ~/.flinkit/config.yaml and edit.
+#
+# Secrets never belong in this file as literals. Reference environment
+# variables as ${VAR}; Flinkit expands them when a profile is resolved.
+#
+# Profile selection precedence: `flinkit --profile <name>`, then the
+# FLINKIT_PROFILE environment variable, then `default` below.
+# FLINKIT_ENDPOINT, if set, overrides the chosen profile's endpoint.
+
+default: local-oss
+
+profiles:
+  # Local open-source Flink via the REST API.
+  local-oss:
+    source: oss
+    platform: oss
+    endpoint: http://localhost:8081
+
+  # Kubernetes (Flink Operator). Discovers FlinkDeployment/FlinkSessionJob and
+  # diagnoses them live over the JobManager REST API — no per-job port-forward.
+  # via: how to reach the JobManager — auto|direct|proxy|port-forward.
+  #   auto    direct in-cluster, proxy out-of-cluster (default)
+  #   proxy   through the Kubernetes apiserver (needs RBAC on services/proxy)
+  #   direct  service DNS (for flinkit running in-cluster)
+  prod-k8s:
+    source: k8s
+    platform: oss
+    options:
+      namespace: flink
+      via: proxy
+
+  # Confluent Platform (CMF) with a token pulled from the environment.
+  prod-cp:
+    source: cp
+    platform: cp
+    endpoint: https://cmf.internal.example:8080
+    options:
+      token: ${FLINKIT_CP_TOKEN}
+
+  # Confluent Cloud with API key/secret pulled from the environment.
+  cc:
+    source: cc
+    platform: cc
+    endpoint: https://flink.region.confluent.cloud
+    options:
+      api-key: ${CONFLUENT_API_KEY}
+      api-secret: ${CONFLUENT_API_SECRET}

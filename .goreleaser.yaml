@@ -1,0 +1,38 @@
+# goreleaser configuration (stub — not wired to a release workflow yet).
+# Validate locally with: goreleaser check
+version: 2
+
+project_name: flinkit
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: flinkit
+    main: ./cmd/flinkit
+    binary: flinkit
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+
+archives:
+  - id: flinkit
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+checksum:
+  name_template: checksums.txt
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-snapshot"

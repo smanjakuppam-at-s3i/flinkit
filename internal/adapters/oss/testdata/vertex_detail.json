@@ -1,0 +1,10 @@
+{
+  "id": "op-agg",
+  "name": "Window Agg",
+  "parallelism": 4,
+  "subtasks": [
+    { "subtask": 0, "status": "RUNNING", "metrics": { "read-records": 250000, "write-records": 150000 } },
+    { "subtask": 1, "status": "RUNNING", "metrics": { "read-records": 250000, "write-records": 150000 } },
+    { "subtask": 2, "status": "RUNNING", "metrics": { "read-records": 600000, "write-records": 360000 } }
+  ]
+}

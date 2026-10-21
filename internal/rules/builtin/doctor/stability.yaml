@@ -1,0 +1,12 @@
+# Doctor rules — stability.
+# Finding IDs are stable once released and must never be renumbered.
+rules:
+  - id: DOC-STAB-001
+    category: doctor
+    severity: medium
+    applies_to: [oss, cp, cc]
+    match:
+      restarts: true
+    message: The job has restarted; repeated restarts point to an unstable pipeline.
+    fix: Check failover reasons and TaskManager loss in the logs; review the restart strategy and resource limits.
+    docs: https://flinkit.dev/rules/DOC-STAB-001

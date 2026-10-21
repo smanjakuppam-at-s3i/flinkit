@@ -1,0 +1,13 @@
+{
+  "jobs": [
+    {
+      "jid": "job-1",
+      "name": "orders-enrichment",
+      "state": "RUNNING",
+      "start-time": 1700000000000,
+      "end-time": -1,
+      "duration": 123456,
+      "tasks": { "total": 8, "running": 8, "finished": 0 }
+    }
+  ]
+}

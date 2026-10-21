@@ -1,0 +1,14 @@
+{
+  "id": "job-1",
+  "name": "demo",
+  "operators": [
+    {
+      "id": "op-agg",
+      "uid": "agg",
+      "name": "Window Agg",
+      "state": [
+        { "name": "windowContents", "kind": "list", "backend": "rocksdb", "ttl": "1h" }
+      ]
+    }
+  ]
+}

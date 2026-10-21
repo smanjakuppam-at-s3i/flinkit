@@ -1,0 +1,26 @@
+{
+  "jid": "job-1",
+  "name": "orders-enrichment",
+  "state": "RUNNING",
+  "vertices": [
+    { "id": "op-src", "name": "Source: Kafka orders", "parallelism": 4 },
+    { "id": "op-agg", "name": "Window Agg", "parallelism": 4 }
+  ],
+  "plan": {
+    "jid": "job-1",
+    "name": "orders-enrichment",
+    "nodes": [
+      {
+        "id": "op-agg",
+        "parallelism": 4,
+        "description": "Window Agg",
+        "inputs": [{ "num": 0, "id": "op-src", "ship_strategy": "HASH" }]
+      },
+      {
+        "id": "op-src",
+        "parallelism": 4,
+        "description": "Source: Kafka orders"
+      }
+    ]
+  }
+}

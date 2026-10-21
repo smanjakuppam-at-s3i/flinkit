@@ -1,0 +1,55 @@
+# Minimal RBAC for running Flinkit against a Kubernetes Flink deployment
+# (Flink Operator). Flinkit is read-only: it discovers jobs from the CRDs and
+# reaches each job's JobManager REST API to diagnose it.
+#
+# Apply to the namespace your Flink jobs run in:
+#   kubectl apply -n flink -f docs/rbac.example.yaml
+#
+# Then bind it to whatever identity your kubeconfig uses:
+#   - out-of-cluster (--via proxy): the user/group in your kubeconfig
+#   - in-cluster  (--via direct):   a ServiceAccount the flinkit pod runs as
+# The RoleBinding below wires a ServiceAccount; edit the subjects for a user.
+#
+# Note: if your account is already cluster-admin (common in dev), you need
+# none of this — you can reach services/proxy and the CRDs already.
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flinkit
+  namespace: flink
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flinkit-reader
+  namespace: flink
+rules:
+  # Discovery: list the Flink custom resources (--source k8s).
+  - apiGroups: ["flink.apache.org"]
+    resources: ["flinkdeployments", "flinksessionjobs"]
+    verbs: ["get", "list"]
+  # Reachability: tunnel to each JobManager's REST service through the
+  # apiserver service proxy (--via proxy). Not needed for --via direct.
+  - apiGroups: [""]
+    resources: ["services/proxy"]
+    verbs: ["get", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: flinkit-reader
+  namespace: flink
+subjects:
+  # In-cluster: the ServiceAccount above. For an out-of-cluster user instead,
+  # replace this with:
+  #   - kind: User
+  #     name: <your-kubeconfig-user>
+  #     apiGroup: rbac.authorization.k8s.io
+  - kind: ServiceAccount
+    name: flinkit
+    namespace: flink
+roleRef:
+  kind: Role
+  name: flinkit-reader
+  apiGroup: rbac.authorization.k8s.io

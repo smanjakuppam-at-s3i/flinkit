@@ -1,0 +1,5 @@
+[
+  { "id": "busyTimeMsPerSecond", "value": "250.0" },
+  { "id": "backPressuredTimeMsPerSecond", "value": "0.0" },
+  { "id": "idleTimeMsPerSecond", "value": "750.0" }
+]
